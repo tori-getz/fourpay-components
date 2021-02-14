@@ -1,0 +1,35 @@
+{
+  "name": "fourpay-components",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "ISC",
+  "author": "",
+  "scripts": {
+    "start": "adalo dev",
+    "login": "adalo login",
+    "publish": "adalo publish"
+  },
+  "adalo": {
+    "logo": "./example-logo.png",
+    "displayName": "FourPay Components",
+    "components": [
+      {
+        "name": "FourPayButton",
+        "manifest": "./src/components/FourPayButton/manifest.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@adalo/cli": "0.0.41",
+    "react": "^16.14.0",
+    "react-art": "^16.13.1",
+    "react-dom": "^16.14.0",
+    "react-native-web": "^0.9.13"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "react-native-webview": "^11.2.3",
+    "react-native-webview-fullscreen": "^1.0.3"
+  }
+}
