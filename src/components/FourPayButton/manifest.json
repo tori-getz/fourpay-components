@@ -47,6 +47,17 @@
       ]
     },
     {
+      "name": "onPaymentError",
+      "displayName": "On payment error",
+      "type": "action",
+      "arguments": [
+        {
+          "type": "text",
+          "displayName": "Error text"
+        }
+      ]
+    },
+    {
       "name": "onError",
       "displayName": "On error",
       "type": "action",

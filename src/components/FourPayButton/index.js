@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Button, View, StyleSheet } from 'react-native'
-import WebView from "react-native-webview"
 
 import FourPayClient from "../../../lib/FourPayClient"
 
@@ -9,6 +8,11 @@ class FourPayButton extends Component {
 		super()
 
 		this.handlePress = this.handlePress.bind(this)
+		this.paymentError = this.paymentError.bind(this)
+	}
+
+	paymentError () {
+
 	}
 
 	async handlePress () {
@@ -20,11 +24,9 @@ class FourPayButton extends Component {
 		try {
 			const result = await client.auth()
 
-			alert(result.token)
-
 			if (!result.error) {
 				const payment = await client.createPayment({
-					amount: 1,
+					amount: 999,
 					description: "lololo",
 					txid: "hzcho",
 					money_storage: {
@@ -34,7 +36,17 @@ class FourPayButton extends Component {
 				});
 
 				if (!payment.error) {
-					this.props.onWidgetCreated('https://kernel.org')
+					this.props.onWidgetCreated(payment.url)
+					let paymentCheckInterval = setInterval(async () => {
+						let paymentStatus = await client.checkPayment(payment.id)
+
+						console.log(`Payment status - ${paymentStatus}`)
+
+						if (paymentStatus === "failed") {
+							this.props.onPaymentError("Payment error")
+							clearInterval(paymentCheckInterval)	
+						}
+					}, 1500)
 				} else {
 					this.props.onError(payment.error)
 				}
@@ -42,6 +54,8 @@ class FourPayButton extends Component {
 				this.props.onError(result.error)
 			}
 		} catch (e) {
+			console.log(e)
+
 			this.props.onError(e.message)
 		}
 	}
@@ -65,10 +79,6 @@ const styles = StyleSheet.create({
 	wrapper: {
 		display: 'absolute',
 		height: "100%"
-	},
-	webview: {
-		position: 'absolute',
-		height: 200
 	}
 })
 

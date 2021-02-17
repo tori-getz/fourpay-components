@@ -28,8 +28,7 @@
     "react-native-web": "^0.9.13"
   },
   "dependencies": {
-    "axios": "^0.21.1",
-    "react-native-webview": "^11.2.3",
-    "react-native-webview-fullscreen": "^1.0.3"
+    "@protonapp/react-native-material-ui": "^2.0.6",
+    "axios": "^0.21.1"
   }
 }
