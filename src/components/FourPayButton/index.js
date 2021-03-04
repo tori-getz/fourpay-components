@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, View, StyleSheet, Platform } from 'react-native'
-import RNWebView from 'react-native-webview'
+import { WebView as RNWebView } from 'react-native-webview'
 import IFrameWebView from "../../../lib/IFrameWebView"
 
 import FourPayClient from "../../../lib/FourPayClient"
@@ -26,6 +26,10 @@ class FourPayButton extends Component {
 		this.paymentError = this.paymentError.bind(this)
 	}
 
+	componentDidMount () {
+		console.log(this.props);
+	}
+
 	paymentError () {
 
 	}
@@ -41,20 +45,33 @@ class FourPayButton extends Component {
 
 			if (!result.error) {
 				const payment = await client.createPayment({
-					amount: 999,
-					description: "lololo",
-					txid: "hzcho",
+					amount: this.props.amount,
+					description: this.props.description,
+					txid: this.props.txid,
 					money_storage: {
 						add: true,
-						customer: "YAA CHELOVEK"
+						customer: this.props.customer
 					}
 				});
 
 				if (!payment.error) {
-					this.setState({
-						webview: true,
-						paymentUrl: payment.url
-					})
+					this.props.onWidgetCreated(payment.url);
+
+					const checkInterval = setInterval(async () => {
+						let status = await client.checkPayment(payment.id);
+
+						console.log(`PAYMENT STATUS - ${status}`);
+
+						if (status !== "created") {
+							if (status === "Charged") {
+								this.props.onPaymentSuccess();
+							} else {
+								this.props.onPaymentError();
+							}
+
+							clearInterval(checkInterval)
+						}
+					}, 1000)
 				} else {
 					this.props.onError(payment.error)
 				}
@@ -62,7 +79,7 @@ class FourPayButton extends Component {
 				this.props.onError(result.error)
 			}
 		} catch (e) {
-			console.log(e)
+			console.log(e);
 
 			this.props.onError(e.message)
 		}
@@ -71,21 +88,17 @@ class FourPayButton extends Component {
 	render() {
 		const { color, text } = this.props
 
+		if (this.state.paymentUrl) {
+			console.log(this.state.paymentUrl);
+		}
+
 		return (
 			<View style={styles.wrapper}>
-				{!this.state.webview
-				?
 				<Button
 					title={text}
 					color={color}
 					onPress={this.handlePress}
-				/>
-				:
-				<WebView
-					source={{ uri: this.state.paymentUrl }}
-					style={styles.webview}
-				/>}
-				
+				/>	
 			</View>
 		)
 	}
@@ -93,7 +106,7 @@ class FourPayButton extends Component {
 
 const styles = StyleSheet.create({
 	wrapper: {
-		display: 'absolute',
+		display: 'flex',
 	},
 	webview: {
 		marginTop: "30%"

@@ -17,34 +17,49 @@
       "type": "color"
     },
     {
-      "name": "rounding",
-      "displayName": "Rounding",
-      "type": "number",
-      "default": 4,
-      "control": { "type": "slider", "max": 18, "min": 0 }
-    },
-    {
       "name": "fourPayLogin",
       "displayName": "4Pay login",
-      "type": "text",
-      "default": "Happy Hacking"
+      "type": "text"
     },
     {
       "name": "fourPayPassword",
       "displayName": "4Pay password",
-      "type": "text",
-      "default": "Happy Hacking"
+      "type": "text"
+    },
+    {
+      "name": "amount",
+      "displayName": "Amount",
+      "type": "number"
+    },
+    {
+      "name": "description",
+      "displayName": "Description",
+      "type": "text"
+    },
+    {
+      "name": "txid",
+      "displayName": "TXID",
+      "type": "text"
+    },
+    {
+      "name": "customer",
+      "displayName": "Customer",
+      "type": "text"
     },
     {
       "name": "onWidgetCreated",
-      "displayName": "On payment widget created",
+      "displayName": "On Payment Widget created",
       "type": "action",
       "arguments": [
         {
           "type": "text",
-          "displayName": "Widget URL"
+          "displayName": "Payment URL"
         }
       ]
+    },
+    {
+      "name": "onPaymentSuccess",
+      "displayName": "On payment success"
     },
     {
       "name": "onPaymentError",

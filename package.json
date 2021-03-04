@@ -1,10 +1,10 @@
 {
   "name": "fourpay-components",
-  "description": "",
+  "description": "pay component for adalo",
   "version": "1.0.0",
   "main": "index.js",
   "license": "ISC",
-  "author": "",
+  "author": "tymm0",
   "scripts": {
     "start": "adalo dev",
     "login": "adalo login",
